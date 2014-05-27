@@ -14,83 +14,72 @@
 #include <CL/cl.h>
 #endif
 #endif
-#endif	// HAVE_OPENCL
+#endif // HAVE_OPENCL
 
 namespace muda {
 
 // MUDA memory object.
-struct _MUDAMemory
-{
+struct _MUDAMemory {
 
-    size_t  size;
-    void   *ptr;                /// @todo { Change type to uint64_t? }
+  size_t size;
+  void *ptr; /// @todo { Change type to uint64_t? }
 
 #if HAVE_OPENCL
 
-    cl_mem  memObjOCL;
+  cl_mem memObjOCL;
 
 #endif
 
-    int dummy;
-
+  int dummy;
 };
 
 // MUDA module object.
-struct _MUDAModule
-{
+struct _MUDAModule {
 
 #if HAVE_OPENCL
 
-    cl_program  moduleObjOCL;
+  cl_program moduleObjOCL;
 
 #endif
 
-    int dummy;
-
+  int dummy;
 };
 
 // MUDA program object.
-struct _MUDAProgram
-{
+struct _MUDAProgram {
 
 #if HAVE_OPENCL
 
-    cl_program  progObjOCL;
+  cl_program progObjOCL;
 
 #endif
 
-    int dummy;
-
+  int dummy;
 };
 
 // MUDA kernel object.
-struct _MUDAKernel
-{
+struct _MUDAKernel {
 
 #if HAVE_OPENCL
 
-    cl_kernel  kernObjOCL;
+  cl_kernel kernObjOCL;
 
 #endif
 
-    int dummy;
-
+  int dummy;
 };
 
 // MUDA event object.
-struct MUDAEvent
-{
+struct MUDAEvent {
 
 #if HAVE_OPENCL
 
-    cl_event    eventCL;
+  cl_event eventCL;
 
 #endif
 
-    int dummy;
-
+  int dummy;
 };
-
 }
 
-#endif  // MUDA_IMPL_H
+#endif // MUDA_IMPL_H
