@@ -77,13 +77,6 @@ int main(int argc, char *const argv[]) {
   int deviceNum = (int)options.get("device");
   const char *headerfilename = (const char *)options.get("header");
 
-  std::string headerStr;
-  printf("headerfilename: %s\n", headerfilename);
-  if (headerfilename) {
-    if (verb)
-      printf("Reading header file: %s\n", headerfilename);
-    headerStr = readfile(headerfilename);
-  }
   // printf("Use platform: %d\n", reqPlatformID);
 
   muda::MUDADeviceOCL *device = new muda::MUDADeviceOCL(muda::ocl_cpu);
@@ -99,6 +92,14 @@ int main(int argc, char *const argv[]) {
   const char *cloptions = (const char *)options.get("clopt");
   if (verb)
     printf("clopts = %s\n", cloptions);
+
+
+  std::string headerStr;
+  if (headerfilename) {
+    if (verb)
+      printf("Reading header file: %s\n", headerfilename);
+    headerStr = readfile(headerfilename);
+  }
 
   if (headerStr.empty()) {
     ret = device->loadKernelSource(kernelfile.c_str(), 0, NULL, cloptions);

@@ -4,6 +4,7 @@
 #include <cassert>
 #include <cstdlib>
 #include <cstdio>
+#include <cstring>
 #include <iostream>
 #include <fstream>
 #include <iterator>
@@ -325,17 +326,26 @@ MUDAProgram MUDADeviceOCL::loadKernelSource(const char *filename, int nheaders,
     cout << "[OCL] Read CL kernel: " << path << "\n";
   }
 
+
   std::ifstream clsrc(path);
   std::istreambuf_iterator<char> vdataBegin(clsrc);
   std::istreambuf_iterator<char> vdataEnd;
   std::string clstr(vdataBegin, vdataEnd);
 
-  const char *src = clstr.c_str();
-  len = clstr.size();
+  std::vector<const char*> args;
+  std::vector<size_t> lengths;
+  for (int i = 0; i < nheaders; i++) {
+    args.push_back(headers[i]);
+    lengths.push_back(strlen(headers[i]));
+  }
+  args.push_back(clstr.c_str());
+  lengths.push_back(clstr.size());
+
+  int n = args.size();
 
   MUDAProgram program = new _MUDAProgram;
   program->progObjOCL = clCreateProgramWithSource(
-      this->context, 1, (const char **)&src, &len, &err);
+      this->context, n, &args.at(0), &lengths.at(0), &err);
   CL_CHECK(err);
 
   err = clBuildProgram(program->progObjOCL, 1,

@@ -32,6 +32,7 @@ If you need to specify path to OpenCL SDK, use --opencl-path and --opencl-libpat
       --platform=N        Specify platform ID.
       --device=N          Specify device ID.
       --clopt=STRING      Specify compiler options for OpenCL compiler.
+      --header=FILENAME   Specify custom header file to be included. 
 
 
     $ ./oclc test.cl 
@@ -40,9 +41,11 @@ If you need to specify path to OpenCL SDK, use --opencl-path and --opencl-libpat
     aafloat aa()
     ^
 
+    $ ./oclc --header=testheader.h test.cl 
+
+
 ## TODO
 
-* custom header inclusion.
 * binary kernel generation.
 
 
