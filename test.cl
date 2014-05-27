@@ -1,4 +1,4 @@
-float aa()
+aafloat aa()
 {
     return 0.0f;
 }

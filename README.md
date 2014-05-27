@@ -1,6 +1,6 @@
-# OCLC: Simple offline OpenCL compiler using OpenCL API.
+# OCLC: Simple offline OpenCL compiliation checker using OpenCL API.
 
-Maybe good to test each vendor's OpenCL compilation. 
+Maybe good to test your OpenCL kernel code on each vendor's OpenCL compiler. 
 
 ## Requirement
 
@@ -20,6 +20,15 @@ If you need to specify path to OpenCL SDK, use --opencl-path and --opencl-libpat
 ## Usage
 
     $ oclcc <options> input.cl
+
+
+## Example
+
+    $ ./oclc test.cl 
+    [OCL] clBuildProgram failed. err = -11
+    err: <program source>:1:1: error: unknown type name 'aafloat'; did you mean 'float'?
+    aafloat aa()
+    ^
 
 
 ## License
