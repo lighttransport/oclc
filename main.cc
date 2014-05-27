@@ -17,7 +17,7 @@
 #endif
 
 #include "muda_runtime.h"
-#include "timerutil.h"
+//#include "timerutil.h"
 #include "OptionParser.h"
 
 void
