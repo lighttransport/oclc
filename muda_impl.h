@@ -16,10 +16,6 @@
 #endif
 #endif	// HAVE_OPENCL
 
-#ifdef HAVE_CUDA
-#include <cuda.h>
-#endif
-
 namespace muda {
 
 // MUDA memory object.
@@ -32,13 +28,6 @@ struct _MUDAMemory
 #if HAVE_OPENCL
 
     cl_mem  memObjOCL;
-
-#endif
-
-#if HAVE_CUDA
-
-    MUDAMemoryType type;
-    CUdeviceptr memObjCUDA;
 
 #endif
 
@@ -56,12 +45,6 @@ struct _MUDAModule
 
 #endif
 
-#if HAVE_CUDA
-
-    CUmodule    moduleObjCUDA;
-
-#endif
-
     int dummy;
 
 };
@@ -73,12 +56,6 @@ struct _MUDAProgram
 #if HAVE_OPENCL
 
     cl_program  progObjOCL;
-
-#endif
-
-#if HAVE_CUDA
-
-    CUmodule    progObjCUDA;
 
 #endif
 
@@ -96,12 +73,6 @@ struct _MUDAKernel
 
 #endif
 
-#if HAVE_CUDA
-
-    CUfunction kernObjCUDA;
-
-#endif
-
     int dummy;
 
 };
@@ -113,12 +84,6 @@ struct MUDAEvent
 #if HAVE_OPENCL
 
     cl_event    eventCL;
-
-#endif
-
-#if HAVE_CUDA
-
-    CUevent     eventCU;
 
 #endif
 

@@ -23,10 +23,6 @@
 #endif  // WIN32
 #endif  // HAVE_OPENCL
 
-#ifdef HAVE_CUDA
-#include <cuda.h>
-#endif
-
 namespace muda
 {
 
