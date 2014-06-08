@@ -109,7 +109,5 @@ int main(int argc, char *const argv[]) {
     ret = device->loadKernelSource(kernelfile.c_str(), 1, headers, cloptions);
   }
 
-  int deviceID = 0;
-
-  return 0;
+  return ret ? 0 : -1;
 }
