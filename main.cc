@@ -59,7 +59,7 @@ int main(int argc, char *const argv[]) {
       .help("default: %default");
   parser.add_option("--device").action("store").type("int").set_default(0).help(
       "default: %default");
-  parser.add_option("--header").action("store").type("string");
+  parser.add_option("--header").dest("header");
   parser.add_option("--clopt").action("store").type("string");
 
   optparse::Values &options = parser.parse_args(argc, argv);
@@ -75,7 +75,7 @@ int main(int argc, char *const argv[]) {
 
   int reqPlatformID = (int)options.get("platform");
   int deviceNum = (int)options.get("device");
-  const char *headerfilename = (const char *)options.get("header");
+  const char *headerfilename = options["header"].c_str();
 
   // printf("Use platform: %d\n", reqPlatformID);
 
