@@ -24,7 +24,7 @@ solution "OCLCSolution"
    configurations { "Release", "Debug" }
 
    if (os.is("windows")) then
-      platforms { "native", "x32", "x64" }
+      platforms { "x64" }
    else
       platforms { "native", "x32", "x64" }
    end
@@ -64,19 +64,13 @@ solution "OCLCSolution"
 
          links { "stdc++", "msvcrt", "ws2_32", "winmm" }
 
-      -- Windows specific
-      configuration { "windows", "vs2008", "x64" }
+      configuration { "windows", "vs2013", "x64" }
 
          includedirs { "./compat" }
 
          defines { 'NOMINMAX', '_LARGEFILE_SOURCE', '_FILE_OFFSET_BITS=64' }
+         links { "OpenCL" }
 
-
-      configuration { "windows", "vs2008", "x32" }
-
-      	includedirs { "./compat" }
-
-         defines { 'NOMINMAX', '_LARGEFILE_SOURCE', '_FILE_OFFSET_BITS=64' }
 
       -- Linux specific
       configuration {"linux", "gmake"}
@@ -91,5 +85,5 @@ solution "OCLCSolution"
 
       configuration "Release"
          -- defines { "NDEBUG" } -- -NDEBUG
-         flags { "Symbols", "Optimize" }
+         flags { "Symbols" }
          targetname "oclc"

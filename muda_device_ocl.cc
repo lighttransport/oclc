@@ -99,7 +99,7 @@ bool MUDADeviceOCL::initialize(int reqPlatformID, int preferredDeviceID,
 
     assert(numPlatforms >= 1);
     assert(numPlatforms < 32);
-    assert(reqPlatformID < numPlatforms);
+    assert(reqPlatformID < (int)numPlatforms);
     if (verbosity)
       printf("[OCL] Num platforms: %d\n", numPlatforms);
     errCode = clGetPlatformIDs(numPlatforms, platform_ids, 0);
@@ -110,7 +110,7 @@ bool MUDADeviceOCL::initialize(int reqPlatformID, int preferredDeviceID,
 
     if (verbosity) {
       char buffer[2048];
-      for (int i = 0; i < numPlatforms; i++) {
+      for (int i = 0; i < (int)numPlatforms; i++) {
         clGetPlatformInfo(platform_ids[i], CL_PLATFORM_NAME, sizeof(buffer),
                           buffer, NULL);
         printf("CL_PLATFORM_NAME:    %s\n", buffer);
@@ -145,7 +145,7 @@ bool MUDADeviceOCL::initialize(int reqPlatformID, int preferredDeviceID,
       printf("[MUDA] [OCL] # of devices = %d\n", num_devices);
 
     this->devices.clear();
-    for (int i = 0; i < num_devices; i++) {
+    for (int i = 0; i < (int)num_devices; i++) {
       this->devices.push_back(devices[i]);
     }
 
@@ -153,7 +153,7 @@ bool MUDADeviceOCL::initialize(int reqPlatformID, int preferredDeviceID,
 
     if (verbosity) {
       char buffer[8192];
-      for (int i = 0; i < num_devices; i++) {
+      for (int i = 0; i < (int)num_devices; i++) {
         printf("==> Device [%d] ========================\n", i);
         size_t size_ret;
         clGetDeviceInfo(this->devices[i], CL_DEVICE_NAME, sizeof(buffer),
@@ -228,7 +228,7 @@ bool MUDADeviceOCL::initialize(int reqPlatformID, int preferredDeviceID,
   //
   // Create CL context.
   //
-  if (preferredDeviceID < this->devices.size()) {
+  if (preferredDeviceID < (int)this->devices.size()) {
     this->currentDeviceID = preferredDeviceID;
   }
   if (verbosity)
@@ -473,7 +473,7 @@ MUDAProgram MUDADeviceOCL::loadKernelBinary(const char *filename) {
   // Setup command queues.
   //
   {
-    for (int i = 0; i < this->devices.size(); i++) {
+    for (int i = 0; i < (int)this->devices.size(); i++) {
       printf("[OCL] OpenCL Device %d Info:\n", i);
       // oclPrintDevInfo(LOGBOTH, this->devices[i]);
 
