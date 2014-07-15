@@ -55,6 +55,12 @@ to generate a soltion file.
     $ ./oclc --header=testheader.h test.cl 
 
 
+## Confirmed OpenCL SDKs
+
+* AMD AppSDK
+* NVIDIA CUDA
+* ARM Mali OpenCL SDK
+
 ## TODO
 
 * binary kernel generation.
