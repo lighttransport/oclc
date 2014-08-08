@@ -448,7 +448,7 @@ MUDAProgram MUDADeviceOCL::loadKernelBinary(const char *filename) {
   MUDAProgram program = new _MUDAProgram;
 
   program->progObjOCL = clCreateProgramWithBinary(
-      this->context, this->devices.size(),
+      this->context, 1,
       &this->devices[this->currentDeviceID], lens,
       const_cast<const unsigned char **>(bins), NULL, &err);
   CL_CHECK(err);
@@ -495,6 +495,54 @@ MUDAProgram MUDADeviceOCL::loadKernelBinary(const char *filename) {
        << "\n";
   return NULL;
 #endif
+}
+
+bool MUDADeviceOCL::getModule(
+  MUDAProgram program,
+  std::vector<char>& binary)
+{
+  size_t numReads;
+  cl_uint numDevices;
+  cl_int err = clGetProgramInfo(program->progObjOCL, CL_PROGRAM_NUM_DEVICES,
+                         sizeof(cl_uint), &numDevices, &numReads);
+  CL_CHECK(err);
+
+  // @fixme
+  if (numDevices != 1) {
+    return false;
+  }
+
+  std::vector<size_t> sizes(numDevices);
+  err = clGetProgramInfo(program->progObjOCL, CL_PROGRAM_BINARY_SIZES,
+                         sizeof(size_t) * numDevices, &sizes.at(0), &numReads);
+  CL_CHECK(err);
+
+  if (err != CL_SUCCESS) {
+    return false;
+  }
+
+  std::vector<char *> binaries(numDevices);
+  for (int i = 0; i < numDevices; i++) {
+    printf("[OCL] Binary size[%d] = %d bytes\n", i, sizes[i]);
+    binaries[i] = new char[sizes[i]];
+  }
+
+  err = clGetProgramInfo(program->progObjOCL, CL_PROGRAM_BINARIES,
+                         sizeof(unsigned char *) * numDevices, &binaries.at(0),
+                         &numReads);
+  CL_CHECK(err);
+
+  if (err != CL_SUCCESS) {
+    return false;
+  }
+
+  binary.resize(sizes[0]);
+  memcpy(&binary.at(0), binaries[0], sizes[0]);
+
+  for (int i = 0; i < numDevices; i++) {
+    delete [] binaries[i];
+  }
+
 }
 
 MUDAMemory MUDADeviceOCL::alloc(MUDAMemoryType memType,

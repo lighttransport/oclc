@@ -87,6 +87,10 @@ public:
 
   MUDAKernel createKernel(const MUDAProgram program, const char *functionName);
 
+  //  Function getModule
+  //  Get compiled binary kernel module.
+  bool getModule(MUDAProgram program, std::vector<char>& binary);
+
   MUDAMemory alloc(MUDAMemoryType memType, MUDAMemoryAttrib memAttrib,
                    size_t memSize);
 
@@ -156,6 +160,10 @@ public:
   //  You should call loadKernelSource() before calling createKernel().
   virtual MUDAKernel createKernel(const MUDAProgram program,
                                   const char *functionName) = 0;
+
+  //  Function getModule
+  //  Get compiled binary kernel module.
+  virtual bool getModule(MUDAProgram program, std::vector<char>& binary) = 0;
 
   //  Function: alloc
   //  Allocates MUDA device memory.
@@ -242,6 +250,10 @@ public:
   //  Creates CL kernel object from CL program.
   //  You should call loadKernelSource() before calling createKernel().
   MUDAKernel createKernel(const MUDAProgram program, const char *functionName);
+
+  //  Function getModule
+  //  Get compiled binary kernel module. 
+  bool getModule(MUDAProgram program, std::vector<char>& binary);
 
   //  Function: alloc
   //  Allocates OpenCL device memory.

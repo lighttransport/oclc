@@ -30,6 +30,7 @@ void usage(const char *prog) {
   printf(
       "  --clopt=STRING      Specify compiler options for OpenCL compiler.\n");
   printf("  --header=FILENAME   Specify custom header file to be included.\n");
+  printf("  -c                  Build kernel module.\n");
 }
 
 std::string readfile(const char *path) {
@@ -61,6 +62,7 @@ int main(int argc, char *const argv[]) {
       "default: %default");
   parser.add_option("--header").dest("header");
   parser.add_option("--clopt").action("store").type("string");
+  parser.add_option("-c").action("store_true").dest("module");
 
   optparse::Values &options = parser.parse_args(argc, argv);
   std::vector<std::string> args = parser.args();
@@ -72,6 +74,7 @@ int main(int argc, char *const argv[]) {
   }
 
   bool verb = (bool)options.get("verbosity");
+  bool module = (bool)options.get("module");
 
   int reqPlatformID = (int)options.get("platform");
   int deviceNum = (int)options.get("device");
@@ -101,13 +104,38 @@ int main(int argc, char *const argv[]) {
     headerStr = readfile(headerfilename);
   }
 
+  muda::MUDAProgram prog;
   if (headerStr.empty()) {
-    ret = device->loadKernelSource(kernelfile.c_str(), 0, NULL, cloptions);
+    prog = device->loadKernelSource(kernelfile.c_str(), 0, NULL, cloptions);
   } else {
     const char *headers[1];
     headers[0] = headerStr.c_str();
-    ret = device->loadKernelSource(kernelfile.c_str(), 1, headers, cloptions);
+    prog = device->loadKernelSource(kernelfile.c_str(), 1, headers, cloptions);
   }
 
-  return ret ? 0 : -1;
+  if (!prog) {
+    return -1;
+  }
+
+  if (module) {
+    std::vector<char> bins;
+    bool ret = device->getModule(prog, bins);
+    if (!ret) {
+      return -1;
+    }
+
+    if (bins.size() == 0) {
+      return -1;
+    }
+
+    FILE* fp = fopen("module.dat", "wb");
+    if (!fp) {
+      return -1;
+    }
+
+    fwrite(&bins.at(0), 1, bins.size(), fp);
+    fclose(fp);
+  }
+
+  return 0;
 }
