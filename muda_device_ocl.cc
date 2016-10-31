@@ -523,7 +523,7 @@ bool MUDADeviceOCL::getModule(
 
   std::vector<char *> binaries(numDevices);
   for (int i = 0; i < numDevices; i++) {
-    printf("[OCL] Binary size[%d] = %d bytes\n", i, sizes[i]);
+    printf("[OCL] Binary size[%d] = %d bytes\n", i, static_cast<int>(sizes[i]));
     binaries[i] = new char[sizes[i]];
   }
 
@@ -543,6 +543,7 @@ bool MUDADeviceOCL::getModule(
     delete [] binaries[i];
   }
 
+  return true;
 }
 
 MUDAMemory MUDADeviceOCL::alloc(MUDAMemoryType memType,
