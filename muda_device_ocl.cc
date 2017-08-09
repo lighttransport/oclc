@@ -268,7 +268,7 @@ bool MUDADeviceOCL::initialize(int reqPlatformID, int preferredDeviceID,
 
 int MUDADeviceOCL::getNumDevices() {
 #if HAVE_OPENCL
-  return this->devices.size();
+  return int(this->devices.size());
 #else
   cout << "OpenCL device target is not supported in this build."
        << "\n";
@@ -316,7 +316,7 @@ MUDAProgram MUDADeviceOCL::loadKernelSource(const char *filename, int nheaders,
 
   assert(this->context != NULL);
 
-  size_t len;
+  //size_t len;
   cl_int err;
 
   char path[4096];
@@ -341,7 +341,7 @@ MUDAProgram MUDADeviceOCL::loadKernelSource(const char *filename, int nheaders,
   args.push_back(clstr.c_str());
   lengths.push_back(clstr.size());
 
-  int n = args.size();
+  int n = int(args.size());
 
   MUDAProgram program = new _MUDAProgram;
   program->progObjOCL = clCreateProgramWithSource(
@@ -453,7 +453,7 @@ MUDAProgram MUDADeviceOCL::loadKernelBinary(const char *filename) {
       const_cast<const unsigned char **>(bins), NULL, &err);
   CL_CHECK(err);
 
-  err = clBuildProgram(program->progObjOCL, this->devices.size(),
+  err = clBuildProgram(program->progObjOCL, static_cast<cl_uint>(this->devices.size()),
                        &this->devices[this->currentDeviceID], NULL, NULL, NULL);
   delete[] bins[0];
 
@@ -522,7 +522,7 @@ bool MUDADeviceOCL::getModule(
   }
 
   std::vector<char *> binaries(numDevices);
-  for (int i = 0; i < numDevices; i++) {
+  for (cl_uint i = 0; i < numDevices; i++) {
     printf("[OCL] Binary size[%d] = %d bytes\n", i, static_cast<int>(sizes[i]));
     binaries[i] = new char[sizes[i]];
   }
@@ -539,7 +539,7 @@ bool MUDADeviceOCL::getModule(
   binary.resize(sizes[0]);
   memcpy(&binary.at(0), binaries[0], sizes[0]);
 
-  for (int i = 0; i < numDevices; i++) {
+  for (cl_uint i = 0; i < numDevices; i++) {
     delete [] binaries[i];
   }
 
@@ -888,7 +888,7 @@ bool MUDADeviceOCL::execute(int deviceID, MUDAKernel kernel, int dimension,
   err = clWaitForEvents(1, &event);
   CL_CHECK(err);
 
-  cl_ulong start, end;
+  //cl_ulong start, end;
   // clGetEventProfilingInfo(event, CL_PROFILING_COMMAND_START,
   // sizeof(cl_ulong), &start, NULL);
   // clGetEventProfilingInfo(event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong),

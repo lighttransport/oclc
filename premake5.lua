@@ -43,8 +43,17 @@ solution "OCLCSolution"
 
       configuration { "windows", "vs2013", "x64" }
 
-         includedirs { "./compat" }
+         defines { '_CRT_SECURE_NO_WARNINGS' }
+         defines { 'NOMINMAX', '_LARGEFILE_SOURCE', '_FILE_OFFSET_BITS=64' }
 
+      configuration { "windows", "vs2015", "x64" }
+
+         defines { '_CRT_SECURE_NO_WARNINGS' }
+         defines { 'NOMINMAX', '_LARGEFILE_SOURCE', '_FILE_OFFSET_BITS=64' }
+
+      configuration { "windows", "vs2017", "x64" }
+
+         defines { '_CRT_SECURE_NO_WARNINGS' }
          defines { 'NOMINMAX', '_LARGEFILE_SOURCE', '_FILE_OFFSET_BITS=64' }
 
       -- Linux specific
