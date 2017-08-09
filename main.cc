@@ -16,6 +16,8 @@
 #include <fcntl.h>
 #endif
 
+#include "clew.h"
+
 #include "muda_runtime.h"
 //#include "timerutil.h"
 #include "OptionParser.h"
@@ -71,6 +73,14 @@ int main(int argc, char *const argv[]) {
     printf("Needs input OpenCL kernel file.\n");
     usage(argv[0]);
     exit(1);
+  }
+
+  {
+    int ret = clewInit();
+    if (ret != CLEW_SUCCESS) {
+      std::cerr << "Failed to find OpenCL device." << std::endl;
+      return EXIT_FAILURE;
+    }
   }
 
   bool verb = (bool)options.get("verbosity");

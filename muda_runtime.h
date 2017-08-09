@@ -1,5 +1,5 @@
 //
-// Copyright 2009 - 2013 Light Transport Entertainment Inc.
+// Copyright 2009 - 2017 Light Transport Entertainment Inc.
 //
 #ifndef MUDA_RUNTIME_H
 #define MUDA_RUNTIME_H
@@ -12,15 +12,7 @@
 #include <map>
 
 #ifdef HAVE_OPENCL
-#ifdef WIN32
-#include <CL/cl.h>
-#else
-#ifdef __APPLE__
-#include <OpenCL/cl.h>
-#else
-#include <CL/cl.h>
-#endif
-#endif // WIN32
+#include "clew.h"
 #endif // HAVE_OPENCL
 
 namespace muda {

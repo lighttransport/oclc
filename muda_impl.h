@@ -5,15 +5,7 @@
 #define MUDA_IMPL_H
 
 #ifdef HAVE_OPENCL
-#ifdef WIN32
-#include <CL/cl.h>
-#else
-#ifdef __APPLE__
-#include <OpenCL/cl.h>
-#else
-#include <CL/cl.h>
-#endif
-#endif
+#include "clew.h"
 #endif // HAVE_OPENCL
 
 namespace muda {

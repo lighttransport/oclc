@@ -1,11 +1,12 @@
 # OCLC: Simple offline OpenCL compiliation checker using OpenCL API.
 
-oclc maybe good to check your OpenCL kernel code on each vendor's OpenCL compiler. 
+`oclc` maybe good to check your OpenCL kernel code on each vendor's OpenCL compiler. 
+
+`oclc` uses `clew`, thus no OpenCL SDK required to compile.
 
 ## Requirement
 
-* OpenCL SDK from each vendor
-* premake4
+* premake5 alpha 11 or later
 * C++ compiler
 * Visual Studio 2013 + 64bit Windows.
 
@@ -13,16 +14,10 @@ oclc maybe good to check your OpenCL kernel code on each vendor's OpenCL compile
 
 ### Linux and MacOSX
 
-    $ premake4 gmake
+    $ premake5 gmake
     $ make
 
-If you need to specify path to OpenCL SDK, use --opencl-path and --opencl-libpath flag when invoking premake4
-
-    $ premake4 --opencl-path=<OPENCL_SDK_PATH> --opencl-libpath=<OPENCL_SDK_LIB_PATH> gmake
-
 ### Windows
-
-Edit OpenCL path in vcbuild.bat, then
 
     > vcbuild.bat
     
@@ -55,22 +50,36 @@ to generate a soltion file.
     $ ./oclc --header=testheader.h test.cl 
 
 
-## Confirmed OpenCL SDKs
+## Supported OpenCL version
 
-* AMD AppSDK
-* NVIDIA CUDA
-* ARM Mali OpenCL SDK
+1.2(due to clew's limitation)
 
 ## TODO
 
 * binary kernel generation.
 
-
 ## License
 
 OCLC is licensed under BSD license.
 
-OptionParser ( https://github.com/weisslj/cpp-optparse ) is
+### clew 
 
+https://github.com/OpenCLWrangler/clew
+
+```
+//////////////////////////////////////////////////////////////////////////
+//  Copyright (c) 2009-2011 Organic Vectory B.V., KindDragon
+//  Written by George van Venrooij
+//
+//  Distributed under the MIT License.
+//////////////////////////////////////////////////////////////////////////
+```
+
+### OptionParser
+
+https://github.com/weisslj/cpp-optparse
+
+```
 Copyright (C) 2010 Johannes Weißl <jargon@molb.org>
 License: your favourite BSD-style license
+```

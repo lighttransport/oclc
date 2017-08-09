@@ -201,7 +201,7 @@ bool MUDADeviceOCL::initialize(int reqPlatformID, int preferredDeviceID,
           cl_ulong uval;
           clGetDeviceInfo(this->devices[i], CL_DEVICE_GLOBAL_MEM_SIZE,
                           sizeof(cl_uint), &uval, &size_ret);
-          printf("CL_DEVICE_GLOBAL_MEM_SIZE: %lld\n", uval);
+          std::cout << "CL_DEVICE_GLOBAL_MEM_SIZE: " << uval << std::endl;
         }
 
         size_t sz;
