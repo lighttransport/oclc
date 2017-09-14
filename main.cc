@@ -102,9 +102,10 @@ int main(int argc, char *const argv[]) {
 
   std::string kernelfile = args.at(0);
 
-  const char *cloptions = (const char *)options.get("clopt");
-  if (verb)
-    printf("clopts = %s\n", cloptions);
+  std::string cloptions = options["clopt"];
+  if (verb) {
+    printf("clopts = %s\n", cloptions.c_str());
+  }
 
 
   std::string headerStr;
@@ -116,11 +117,11 @@ int main(int argc, char *const argv[]) {
 
   muda::MUDAProgram prog;
   if (headerStr.empty()) {
-    prog = device->loadKernelSource(kernelfile.c_str(), 0, NULL, cloptions);
+    prog = device->loadKernelSource(kernelfile.c_str(), 0, NULL, cloptions.c_str());
   } else {
     const char *headers[1];
     headers[0] = headerStr.c_str();
-    prog = device->loadKernelSource(kernelfile.c_str(), 1, headers, cloptions);
+    prog = device->loadKernelSource(kernelfile.c_str(), 1, headers, cloptions.c_str());
   }
 
   if (!prog) {
