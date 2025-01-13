@@ -37,6 +37,11 @@ void usage(const char *prog) {
 
 std::string readfile(const char *path) {
   std::ifstream clsrc(path);
+  if (!clsrc) {
+    fprintf(stderr, "File not found or failed to read: %s\n", path);
+    return std::string();
+  }
+
   std::istreambuf_iterator<char> vdataBegin(clsrc);
   std::istreambuf_iterator<char> vdataEnd;
   std::string clstr(vdataBegin, vdataEnd);
